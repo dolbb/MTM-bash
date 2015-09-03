@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#rootDir=$1 need to reset it to this param!
+rootDir="./testFiles"
+
+stations=(`ls ${rootDir}/*.st`)
+numOfStations=${#stations[*]}
+
+echo $numOfStations
+
+for ((i= 0; i< $numOfStations ; i++)); do
+	timeStamps="cat ${stations[$i]} | while read line; do
+		bigList[counter]=$line
+		let counter++
+	done < <(get_favorite_movies ${userNames[$i]} )
+done
+
+
+
+
+
+#timeStamps="cat ${stations[0]} | 
