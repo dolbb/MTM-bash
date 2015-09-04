@@ -10,6 +10,6 @@ for ((i= 0; i< $numOfStations ; i++)); do
 	nameWithExtension="${fullStationPath##*/}"
 	stationName="${nameWithExtension%.*}"
 	while IFS=$',' read -a line; do
-		echo ${line[1]}:${line[0]}:$stationName:${line[2]}
+		echo ${line[1]} ${line[0]} $stationName ${line[2]}
 	done < "${stations[$i]}"
 done
