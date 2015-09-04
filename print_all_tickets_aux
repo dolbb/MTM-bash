@@ -1,0 +1,15 @@
+#!/bin/bash
+
+rootDir=$1
+
+stations=(`ls ${rootDir}/*.st`)
+numOfStations=${#stations[*]}
+
+for ((i= 0; i< $numOfStations ; i++)); do
+	fullStationPath=${stations[$i]}
+	nameWithExtension="${fullStationPath##*/}"
+	stationName="${nameWithExtension%.*}"
+	while IFS=$',' read -a line; do
+		echo ${line[1]}:${line[0]}:$stationName:${line[2]}
+	done < "${stations[$i]}"
+done
