@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#make sure that the directory exists.
+if [[ -d "$1" ]]; then
+	rootDir=$1
+	getTickets=("./print_all_tickets_aux $rootDir")
+	#make sure that the there are stations.	
+	if [[ "no stations"=="$getTickets" ]]; then
+		echo no stations
+	#if all went well - do this algorithm
+	else
+		$getTickets | cut -f1,2 -d" " | sort | uniq | while read userLine ; do 
+			$getTickets | grep "$userLine" | sort -n -k3 | head -1 | while read -a line ; do
+				echo ${line[0]} ${line[1]}:${line[2]}:${line[3]}:${line[4]}
+			done
+		done
+	fi
+	else
+	echo bad dir
+fi

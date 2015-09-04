@@ -5,11 +5,16 @@ rootDir=$1
 stations=(`ls ${rootDir}/*.st`)
 numOfStations=${#stations[*]}
 
-for ((i= 0; i< $numOfStations ; i++)); do
-	fullStationPath=${stations[$i]}
-	nameWithExtension="${fullStationPath##*/}"
-	stationName="${nameWithExtension%.*}"
-	while IFS=$',' read -a line; do
-		echo ${line[1]} ${line[0]} $stationName ${line[2]}
-	done < "${stations[$i]}"
-done
+if ((numOfStations < 1)); then
+	echo no stations
+else
+	for ((i= 0; i< $numOfStations ; i++)); do
+		#if(station.st is empty continue;)
+		fullStationPath=${stations[$i]}
+		nameWithExtension="${fullStationPath##*/}"
+		stationName="${nameWithExtension%.*}"
+		while IFS=$',' read -a line; do
+			echo ${line[1]} ${line[0]} $stationName ${line[2]}	
+		done < "${stations[$i]}"
+	done
+fi
