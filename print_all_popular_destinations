@@ -1,0 +1,9 @@
+#!/bin/bash
+
+rootDir=$1
+numToPrint=$2
+getTickets=("./print_all_tickets_aux $rootDir")
+
+if [[ -d "$1" ]]; then
+	$getTickets | cut -f5 -d" " | sort | uniq -c | sort -s -n -r | cut -c9- | head -${numToPrint}
+fi
