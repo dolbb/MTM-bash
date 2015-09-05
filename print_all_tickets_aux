@@ -2,19 +2,20 @@
 
 rootDir=$1
 
-stations=(`ls ${rootDir}/*.st`)
-numOfStations=${#stations[*]}
-
-if ((numOfStations < 1)); then
-	echo no stations
-else
-	for ((i= 0; i< $numOfStations ; i++)); do
-		#if(station.st is empty continue;)
-		fullStationPath=${stations[$i]}
-		nameWithExtension="${fullStationPath##*/}"
-		stationName="${nameWithExtension%.*}"
-		while IFS=$',' read -a line; do
-			echo ${line[1]} ${line[0]} $stationName ${line[2]}	
-		done < "${stations[$i]}"
-	done
-fi
+for fullStationPath in ${rootDir}/*.st; do
+	#protect case where the is no .st file:
+	if [[ ! ( -f ${fullStationPath} ) ]]; then
+		continue
+	else
+		#protect case where the file is empty:
+		if (( `cat ${fullStationPath} | wc -l` < 1 )); then
+			continue
+		else
+			nameWithExtension="${fullStationPath##*/}"
+			stationName="${nameWithExtension%.*}"
+			while IFS=$',' read -a line; do
+				echo ${line[1]} ${line[0]} $stationName ${line[2]}	
+			done < "${fullStationPath}"		
+		fi
+	fi
+done
