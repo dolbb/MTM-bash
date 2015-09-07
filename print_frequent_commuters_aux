@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#the following script will print all tickets' lines with a time stamp of 
+#above/equal the $2 argument, in the following format (not summed):
+#<passenger first name> <passenger last name> <num of tickets>
+
+rootDir=$1
+minTimeStamp=$2
+
+getTickets=("./print_all_tickets_aux $rootDir")
+
+$getTickets | while read -a ticket; do
+	if (( ${ticket[0]} > $minTimeStamp - 1 ));then
+		echo ${ticket[1]} ${ticket[2]} ${ticket[5]}
+	fi
+done

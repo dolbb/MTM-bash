@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#the following will call an aux script which will print a commuter's name for 
+#each ticket in the database that has a timeStamp of over\equal to the minimum.
+
+rootDir=$1
+numToPrint=$2
+minTimeStamp=$3
+getTickets="./print_all_tickets_aux $rootDir"
+getCommuters="./print_frequent_commuters_aux $rootDir $minTimeStamp"
+
+
+function operate {
+	sum=0
+	$getTickets | cut -f2,3 -d" " | sort | uniq | while read passenger; do
+		$getCommuters | grep "$passenger" | 
+		{
+			while read -a line; do
+				let "sum=($sum+${line[2]})"
+			done
+			echo "$passenger $sum"	
+		}
+	done 
+}
+
+if [[ -d "$1" ]]; then
+	operate | sort -n -k3 -s -r | head -$numToPrint | cat
+fi
+

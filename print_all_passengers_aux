@@ -6,7 +6,7 @@ getTickets=("./print_all_tickets_aux $rootDir")
 #make sure that the there are stations' files and data in them.	
 if (( ! (`$getTickets | wc -l` == 0) )); then
 	#if files exists and not empty, print in the format - just " " and not ":".
-	$getTickets | cut -f1,2 -d" " | sort | uniq | while read userLine ; do 
-		$getTickets | grep "$userLine" | sort -n -s -k3 | head -1 | cat
+	$getTickets | cut -f2,3 -d" " | sort | uniq | while read userLine ; do 
+		$getTickets | grep "$userLine" | sort -n -s | head -1 | cat
 	done
 fi

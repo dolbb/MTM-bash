@@ -1,0 +1,13 @@
+#!/bin/bash
+
+rootDir=$1
+numFrequent=$2
+numStations=$3
+	
+frequentComuters=`./print_frequent_commuters $rootDir $numFrequent | cut -f1,2 -d" "`
+getTickets="./print_all_tickets_aux $rootDir"
+
+if [[ -d "$1" ]]; then
+	
+	
+fi

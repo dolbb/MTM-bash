@@ -1,21 +1,36 @@
 #!/bin/bash
 
+#this script is meant to print the whole data in the file with spaces,
+#as the containing station for each ticket is in the output:
+#<time> <name> <start station> <end station> <number of tickets>
+
 rootDir=$1
 
 for fullStationPath in ${rootDir}/*.st; do
-	#protect case where the is no .st file:
-	if [[ ! ( -f ${fullStationPath} ) ]]; then
-		continue
-	else
+	#protect case where there is no .st file:
+	if [[  -f ${fullStationPath} ]]; then
 		#protect case where the file is empty:
 		if (( `cat ${fullStationPath} | wc -l` < 1 )); then
 			continue
 		else
-			nameWithExtension="${fullStationPath##*/}"
-			stationName="${nameWithExtension%.*}"
-			while IFS=$',' read -a line; do
-				echo ${line[1]} ${line[0]} $stationName ${line[2]}	
-			done < "${fullStationPath}"		
+			nameWithExtention="${fullStationPath}"
+			while [[ $nameWithExtention == */*  ]] ; do
+				nameWithExtention=`echo $nameWithExtention | cut -f2- -d"/"`
+			done
+			#after this line the nameWithExtention holds what it stands for..
+			stationName=`echo $nameWithExtention | cut -f1 -d"."`
+			#now stationName is clean without add-ons.
+			cat "${fullStationPath}" | while read line; do
+				for (( i = 1; i <= 4 ;i++ ));do
+					if (( $i == 3 ));then
+						echo -n "$stationName " 
+					fi
+					echo -n "`echo $line | cut -f$i -d","` "
+					if (( $i == 4 ));then
+						echo
+					fi
+				done				
+			done
 		fi
 	fi
 done
