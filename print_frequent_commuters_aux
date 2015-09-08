@@ -7,7 +7,7 @@
 rootDir=$1
 minTimeStamp=$2
 
-getTickets=("./print_all_tickets_aux $rootDir")
+getTickets="print_all_tickets_aux $rootDir"
 
 $getTickets | while read -a ticket; do
 	if (( ${ticket[0]} > $minTimeStamp - 1 ));then

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+rootDir=$1
+numToPrint=$2
+getTickets="print_all_tickets_aux $rootDir"
+
+function print {
+	$getTickets | cut -f5 -d" " | sort | uniq -c | sort -s -n -r | cut -c9- | cat
+}
+
+function operate {
+	print
+	$getTickets | cut -f4 -d" " | sort | uniq | while read station; do
+		if (( ` print | grep "${station}" | wc -l ` < 1 )); then
+			echo ${station}
+		fi
+	done
+}
+
+if [[ -d "$1" ]]; then
+	operate | head -$numToPrint | cat
+fi

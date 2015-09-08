@@ -6,8 +6,8 @@
 rootDir=$1
 numToPrint=$2
 minTimeStamp=$3
-getTickets="./print_all_tickets_aux $rootDir"
-getCommuters="./print_frequent_commuters_aux $rootDir $minTimeStamp"
+getTickets="print_all_tickets_aux $rootDir"
+getCommuters="print_frequent_commuters_aux $rootDir $minTimeStamp"
 
 
 function operate {

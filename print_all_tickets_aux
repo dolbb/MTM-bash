@@ -6,7 +6,7 @@
 
 rootDir=$1
 
-for fullStationPath in ${rootDir}/*.st; do
+for fullStationPath in ${rootDir}/*\.st; do
 	#protect case where there is no .st file:
 	if [[  -f ${fullStationPath} ]]; then
 		#protect case where the file is empty:

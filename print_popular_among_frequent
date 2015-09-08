@@ -4,10 +4,30 @@ rootDir=$1
 numFrequent=$2
 numStations=$3
 	
-frequentComuters=`./print_frequent_commuters $rootDir $numFrequent | cut -f1,2 -d" "`
-getTickets="./print_all_tickets_aux $rootDir"
+frequentComuters="print_frequent_commuters $rootDir $numFrequent"
+getTickets="print_all_tickets_aux $rootDir"
+
+function getStationsFromeFrequent {
+	$frequentComuters | cut -f1,2 -d" " | while read passenger; do
+		$getTickets | grep "$passenger" | while read -a ticket; do
+			echo ${ticket[4]}
+		done
+	done
+}
 
 if [[ -d "$1" ]]; then
-	
-	
+	place=0
+	getStationsFromeFrequent| cat | sort | uniq -c | sort -n -r -s | while read -a line; do
+		let place++
+		if (( $place <= $numStations )); then
+			if (( ${line[0]} < 100 )); then
+				echo -n "0"
+			fi
+			if (( ${line[0]} < 10 )); then
+				echo -n "0"
+			fi		
+			echo -n "${place} "
+			echo ${line[*]} | cut -f2 -d" " | cat
+		fi
+	done
 fi

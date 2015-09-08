@@ -2,7 +2,7 @@
 
 #make sure that the directory exists.
 if [[ -d "$1" ]]; then
-	./print_all_passengers_aux $1 | while read -a line; do
+	print_all_passengers_aux $1 | sort -s -n | while read -a line; do
 		echo ${line[1]} ${line[2]}:${line[0]}:${line[3]}:${line[4]}
 	done
 fi
